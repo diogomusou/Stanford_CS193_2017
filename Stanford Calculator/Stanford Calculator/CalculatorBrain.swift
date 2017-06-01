@@ -23,6 +23,19 @@ struct CalculatorBrain {
         "e" : Operation.constant(M_E),
         "√" : Operation.unaryOperation(sqrt),
         "±" : Operation.unaryOperation({-$0}),
+        "1/x":Operation.unaryOperation({1/$0}),
+        "cos":Operation.unaryOperation(cos),
+        "sin":Operation.unaryOperation(sin),
+        "tan":Operation.unaryOperation(tan),
+        "x!": Operation.unaryOperation({
+            var result = 1.0
+            var number = $0
+            while (number > 0) {
+                result = result * number
+                number = number - 1
+            }
+            return result
+        }),
         "+" : Operation.binaryOperation({$0 + $1}),
         "−" : Operation.binaryOperation({$0 - $1}),
         "×" : Operation.binaryOperation({$0 * $1}),
@@ -40,7 +53,14 @@ struct CalculatorBrain {
                     accumulator = function(accumulator!)
                 }
             case .binaryOperation(let function):
-                if accumulator != nil {
+                //if user wants to do multiple operations without pressing "=", 
+                //calculate previous result first (first 3 lines are same code as "case .equals"):
+                if accumulator != nil && pendingBinaryOperation != nil {
+                    accumulator = pendingBinaryOperation!.perform(with: accumulator!)
+                    pendingBinaryOperation = nil
+                    pendingBinaryOperation = PendingBinaryOperation(function: function, firstOperand: accumulator!)
+                    accumulator = nil
+                }else if accumulator != nil {
                     pendingBinaryOperation = PendingBinaryOperation(function: function, firstOperand: accumulator!)
                     accumulator = nil
                 }
