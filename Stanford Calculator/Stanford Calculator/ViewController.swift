@@ -36,7 +36,6 @@ class ViewController: UIViewController {
             let textCurrentlyInDisplay = displayLabel.text!
             displayLabel.text = textCurrentlyInDisplay + dot
             userIsTypingDoubleValue = true
-            userIsInTheMiddleOfTyping = true
         }
     }
     var displayValue : Double {
