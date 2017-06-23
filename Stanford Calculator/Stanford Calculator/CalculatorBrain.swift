@@ -18,7 +18,6 @@ struct CalculatorBrain {
             } else {
                 return pendingBinaryOperation!.descriptionFunction(pendingBinaryOperation!.firstDescriptionOperand, accumulator.text ?? "")
             }
-            
         }
     }
     
@@ -29,6 +28,7 @@ struct CalculatorBrain {
     }
     
     private enum Operation {
+        case rand(() -> Double)
         case constant(Double)
         case unaryOperation((Double) -> Double, (String) -> String)
         case binaryOperation((Double,Double) -> Double, (String, String) -> String)
@@ -36,6 +36,7 @@ struct CalculatorBrain {
     }
     
     private var operations: Dictionary<String,Operation> = [
+        "Rand" : Operation.rand({Double(arc4random())/Double(UInt32.max)}),
         "π" : Operation.constant(Double.pi),
         "e" : Operation.constant(M_E),
         "√" : Operation.unaryOperation(sqrt,   {"√(\($0))"}),
@@ -57,6 +58,9 @@ struct CalculatorBrain {
     mutating func performOperation(_ symbol : String) {
         if let operation = operations[symbol] {
             switch operation {
+            case .rand(let function):
+                let randNumber = function()
+                accumulator = (randNumber, "rand(" + formatter.string(from: randNumber as NSNumber)! + ")")
             case .constant(let value):
                 accumulator = (value, symbol)
             case .unaryOperation(let (function, description)):
@@ -75,9 +79,6 @@ struct CalculatorBrain {
             case .equals:
                 performPendingBinaryOperation()
             }
-        }
-        if accumulator.text != nil {
-            print(accumulator.text!)
         }
     }
     
@@ -113,7 +114,7 @@ struct CalculatorBrain {
     }
     
     mutating func setOperand(_ operand: Double) {
-        accumulator = (operand, "\(operand)")
+        accumulator = (operand, formatter.string(from: operand as NSNumber))
     }
     
     
@@ -128,3 +129,13 @@ func factorial(_ number: Double) -> Double {
     }
     return result
 }
+
+let formatter : NumberFormatter = {
+    let formatter = NumberFormatter()
+    formatter.numberStyle = .decimal
+    //formatter.usesSignificantDigits = true
+    formatter.maximumFractionDigits = 6
+    formatter.notANumberSymbol = "Error"
+    formatter.locale = Locale.current
+    return formatter
+}()

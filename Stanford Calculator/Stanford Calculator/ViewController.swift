@@ -12,9 +12,25 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var displayLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var acButton: UIButton! //All Clear button. Changes to "C" (clear) when userIsInTheMiddleOfTyping
+    @IBOutlet weak var decimalSeparatorButton: UIButton! {
+        didSet {
+            decimalSeparatorButton.setTitle(decimalSeparator, for: UIControlState())
+        }
+    }
     
-    var userIsInTheMiddleOfTyping = false
-    var userIsTypingDoubleValue = false  //flag to avoid numbers with 2 or more dots "."
+    private var decimalSeparator = formatter.decimalSeparator ?? "."
+    private var userIsInTheMiddleOfTyping = false
+    private var userIsTypingDoubleValue = false  //flag to avoid numbers with 2 or more dots "."
+    private var displayValue : Double {
+        get {
+            let doubleValue = formatter.number(from: displayLabel.text!)  //convert formatted string to accepted number (e.g "2,34" to "2.34")
+            return doubleValue!.doubleValue
+        }
+        set {
+            displayLabel.text = formatter.string(from: newValue as NSNumber)
+        }
+    }
     
     private var brain = CalculatorBrain()
     
@@ -26,6 +42,7 @@ class ViewController: UIViewController {
         } else {
             displayLabel.text = digit
             userIsInTheMiddleOfTyping = true
+            acButton.setTitle("C", for: .normal)
         }
     }
     
@@ -36,27 +53,21 @@ class ViewController: UIViewController {
         if !userIsTypingDoubleValue && userIsInTheMiddleOfTyping{
             let textCurrentlyInDisplay = displayLabel.text!
             displayLabel.text = textCurrentlyInDisplay + dot
-            userIsTypingDoubleValue = true
         } else if !userIsTypingDoubleValue {
-            displayLabel.text = "0."
-            userIsTypingDoubleValue = true
-            userIsInTheMiddleOfTyping = true
+            displayLabel.text = "0" + dot
         }
+        userIsTypingDoubleValue = true
+        userIsInTheMiddleOfTyping = true
+        acButton.setTitle("C", for: .normal)
     }
-    var displayValue : Double {
-        get {
-            return Double(displayLabel.text!)!
-        }
-        set {
-            displayLabel.text = String(newValue)
-        }
-    }
+    
 
     @IBAction func performOperation(_ sender: UIButton) {
         if userIsInTheMiddleOfTyping {
             brain.setOperand(displayValue)
             userIsInTheMiddleOfTyping = false
             userIsTypingDoubleValue = false
+            acButton.setTitle("AC", for: .normal)
         }
         if let mathematicalSymbol = sender.currentTitle {
             brain.performOperation(mathematicalSymbol)
@@ -76,11 +87,14 @@ class ViewController: UIViewController {
     //Reset brain (by reinitializing the CalculatorBrain
     //and clear the display label
     @IBAction func touchedAC(_ sender: UIButton) {
-        brain = CalculatorBrain()
+        if !userIsInTheMiddleOfTyping {
+            brain = CalculatorBrain()
+            descriptionLabel.text = " "
+        }
         displayLabel.text = "0"
-        descriptionLabel.text = " "
         userIsInTheMiddleOfTyping = false
         userIsTypingDoubleValue = false
+        acButton.setTitle("AC", for: .normal)
     }
 
 }
