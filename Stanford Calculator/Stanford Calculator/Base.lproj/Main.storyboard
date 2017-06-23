@@ -320,7 +320,7 @@
                                                                     <action selector="performOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ksR-om-IWf"/>
                                                                 </connections>
                                                             </button>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6tk-MX-S9G">
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6tk-MX-S9G">
                                                                 <rect key="frame" x="94" y="0.0" width="93" height="80"/>
                                                                 <color key="backgroundColor" red="0.30588235289999999" green="0.58823529409999997" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="50"/>
@@ -366,6 +366,8 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="acButton" destination="H3y-RE-CoA" id="JpM-rp-eWf"/>
+                        <outlet property="decimalSeparatorButton" destination="6tk-MX-S9G" id="JtV-9S-Fpv"/>
                         <outlet property="descriptionLabel" destination="xox-KV-iw4" id="BS5-cM-LoQ"/>
                         <outlet property="displayLabel" destination="yx8-HT-LYJ" id="sN0-ch-pWj"/>
                     </connections>

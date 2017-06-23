@@ -18,7 +18,6 @@ struct CalculatorBrain {
             } else {
                 return pendingBinaryOperation!.descriptionFunction(pendingBinaryOperation!.firstDescriptionOperand, accumulator.text ?? "")
             }
-            
         }
     }
     
@@ -76,9 +75,6 @@ struct CalculatorBrain {
                 performPendingBinaryOperation()
             }
         }
-        if accumulator.text != nil {
-            print(accumulator.text!)
-        }
     }
     
     private mutating func performPendingBinaryOperation() {
@@ -113,7 +109,7 @@ struct CalculatorBrain {
     }
     
     mutating func setOperand(_ operand: Double) {
-        accumulator = (operand, "\(operand)")
+        accumulator = (operand, formatter.string(from: operand as NSNumber))
     }
     
     
@@ -128,3 +124,13 @@ func factorial(_ number: Double) -> Double {
     }
     return result
 }
+
+let formatter : NumberFormatter = {
+    let formatter = NumberFormatter()
+    formatter.numberStyle = .decimal
+    //formatter.usesSignificantDigits = true
+    formatter.maximumFractionDigits = 6
+    formatter.notANumberSymbol = "Error"
+    formatter.locale = Locale.current
+    return formatter
+}()
