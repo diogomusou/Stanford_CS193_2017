@@ -23,8 +23,8 @@ class Stanford_CalculatorTests: XCTestCase {
     
     func testExampleOperand() {
         var testBrain = CalculatorBrain()
-        testBrain.setOperand(5.0)
-        XCTAssertEqual(testBrain.result, 5.0)
+        testBrain.setOperand(5)
+        XCTAssertEqual(testBrain.result, 5)
     }
     
     func testDescriptionTask6() {
@@ -33,7 +33,7 @@ class Stanford_CalculatorTests: XCTestCase {
         // a. touching 7 + would show “7 + ...” (with 7 still in the display)
         testBrain.setOperand(7)
         testBrain.performOperation("+")
-        XCTAssertEqual(testBrain.description, "7.0 + ")
+        XCTAssertEqual(testBrain.description, "7 + ")
         XCTAssertTrue(testBrain.resultIsPending)
         XCTAssertFalse(testBrain.result != nil)
         
@@ -43,38 +43,38 @@ class Stanford_CalculatorTests: XCTestCase {
         //c. 7 + 9 = would show “7 + 9 =” (16 in the display)
         testBrain.setOperand(9)
         testBrain.performOperation("=")
-        XCTAssertEqual(testBrain.description, "7.0 + 9.0")
+        XCTAssertEqual(testBrain.description, "7 + 9")
         XCTAssertFalse(testBrain.resultIsPending)
-        XCTAssertEqual(testBrain.result, 16.0)
+        XCTAssertEqual(testBrain.result, 16)
         
         //d. 7 + 9 = √ would show “√(7 + 9) =” (4 in the display)
         testBrain.performOperation("√")
-        XCTAssertEqual(testBrain.description, "√(7.0 + 9.0)")
+        XCTAssertEqual(testBrain.description, "√(7 + 9)")
         XCTAssertFalse(testBrain.resultIsPending)
-        XCTAssertEqual(testBrain.result, 4.0)
+        XCTAssertEqual(testBrain.result, 4)
         
         //e. 7 + 9 = √ + 2 = would show “√(7 + 9) + 2 =” (6 in the display)
         testBrain.performOperation("+")
         testBrain.setOperand(2)
         testBrain.performOperation("=")
-        XCTAssertEqual(testBrain.description, "√(7.0 + 9.0) + 2.0")
+        XCTAssertEqual(testBrain.description, "√(7 + 9) + 2")
         XCTAssertFalse(testBrain.resultIsPending)
-        XCTAssertEqual(testBrain.result, 6.0)
+        XCTAssertEqual(testBrain.result, 6)
         
         //f. 7 + 9 √ would show “7 + √(9) …” (3 in the display)
         testBrain.setOperand(7)
         testBrain.performOperation("+")
         testBrain.setOperand(9)
         testBrain.performOperation("√")
-        XCTAssertEqual(testBrain.description, "7.0 + √(9.0)")
+        XCTAssertEqual(testBrain.description, "7 + √(9)")
         XCTAssertTrue(testBrain.resultIsPending)
-        XCTAssertEqual(testBrain.result, 3.0)
+        XCTAssertEqual(testBrain.result, 3)
         
         //g. 7 + 9 √ = would show “7 + √(9) =“ (10 in the display)
         testBrain.performOperation("=")
-        XCTAssertEqual(testBrain.description, "7.0 + √(9.0)")
+        XCTAssertEqual(testBrain.description, "7 + √(9)")
         XCTAssertFalse(testBrain.resultIsPending)
-        XCTAssertEqual(testBrain.result, 10.0)
+        XCTAssertEqual(testBrain.result, 10)
         
         //h. 7 + 9 = + 6 = + 3 = would show “7 + 9 + 6 + 3 =” (25 in the display)
         testBrain.setOperand(7)
@@ -87,9 +87,9 @@ class Stanford_CalculatorTests: XCTestCase {
         testBrain.performOperation("+")
         testBrain.setOperand(3)
         testBrain.performOperation("=")
-        XCTAssertEqual(testBrain.description, "7.0 + 9.0 + 6.0 + 3.0")
+        XCTAssertEqual(testBrain.description, "7 + 9 + 6 + 3")
         XCTAssertFalse(testBrain.resultIsPending)
-        XCTAssertEqual(testBrain.result, 25.0)
+        XCTAssertEqual(testBrain.result, 25)
         
         //i. 7 + 9 = √ 6 + 3 = would show “6 + 3 =” (9 in the display)
         testBrain.setOperand(7)
@@ -101,9 +101,9 @@ class Stanford_CalculatorTests: XCTestCase {
         testBrain.performOperation("+")
         testBrain.setOperand(3)
         testBrain.performOperation("=")
-        XCTAssertEqual(testBrain.description, "6.0 + 3.0")
+        XCTAssertEqual(testBrain.description, "6 + 3")
         XCTAssertFalse(testBrain.resultIsPending)
-        XCTAssertEqual(testBrain.result, 9.0)
+        XCTAssertEqual(testBrain.result, 9)
         
         //j. 5 + 6 = 7 3 would show “5 + 6 =” (73 in the display)
         testBrain.setOperand(5)
@@ -111,16 +111,16 @@ class Stanford_CalculatorTests: XCTestCase {
         testBrain.setOperand(6)
         testBrain.performOperation("=")
         //testBrain.setOperand(73)   -> Not sent to model
-        XCTAssertEqual(testBrain.description, "5.0 + 6.0")
+        XCTAssertEqual(testBrain.description, "5 + 6")
         XCTAssertFalse(testBrain.resultIsPending)
-        XCTAssertEqual(testBrain.result, 11.0)
+        XCTAssertEqual(testBrain.result, 11)
         
         //k. 4 × π = would show “4 × π =“ (12.5663706143592 in the display)
         testBrain.setOperand(4)
         testBrain.performOperation("×")
         testBrain.performOperation("π")
         testBrain.performOperation("=")
-        XCTAssertEqual(testBrain.description, "4.0 × π")
+        XCTAssertEqual(testBrain.description, "4 × π")
         XCTAssertFalse(testBrain.resultIsPending)
         XCTAssertTrue(abs(testBrain.result! - 12.5663706143592) < 0.0001)
     }
