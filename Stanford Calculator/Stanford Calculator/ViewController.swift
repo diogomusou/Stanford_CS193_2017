@@ -24,7 +24,8 @@ class ViewController: UIViewController {
     private var userIsTypingDoubleValue = false  //flag to avoid numbers with 2 or more dots "."
     private var displayValue : Double {
         get {
-            return Double(displayLabel.text!)!
+            let doubleValue = formatter.number(from: displayLabel.text!)  //convert formatted string to accepted number (e.g "2,34" to "2.34")
+            return doubleValue!.doubleValue
         }
         set {
             displayLabel.text = formatter.string(from: newValue as NSNumber)
@@ -53,7 +54,7 @@ class ViewController: UIViewController {
             let textCurrentlyInDisplay = displayLabel.text!
             displayLabel.text = textCurrentlyInDisplay + dot
         } else if !userIsTypingDoubleValue {
-            displayLabel.text = "0."
+            displayLabel.text = "0" + dot
         }
         userIsTypingDoubleValue = true
         userIsInTheMiddleOfTyping = true
