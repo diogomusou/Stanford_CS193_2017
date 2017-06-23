@@ -29,38 +29,6 @@ class Stanford_CalculatorUITests: XCTestCase {
         
     }
     
-//    func testExample() {
-//        let app = XCUIApplication()
-    
-//        let buttonDigit1 = app.buttons["1"]
-        
-//        let buttonDigit2 = app.buttons["2"]
-//        let buttonDigit3 = app.buttons["3"]
-//        let buttonDigit4 = app.buttons["4"]
-//        let buttonDigit5 = app.buttons["5"]
-//        let buttonDigit6 = app.buttons["6"]
-//        let buttonDigit7 = app.buttons["7"]
-//        let buttonDigit8 = app.buttons["8"]
-//        let buttonDigit9 = app.buttons["9"]
-//        let buttonDigit0 = app.buttons["0"]
-//
-//        let buttonDecimalPoint = app.buttons["."]
-//
-//        let buttonPi = app.buttons["π"]
-//
-//        let buttonMultiply = app.buttons["×"]
-//        let buttonDivide = app.buttons["÷"]
-//        let buttonAdd = app.buttons["+"]
-//        let buttonSubtract = app.buttons["−"]
-//        let buttonCos = app.buttons["cos"]
-//        let buttonSqrt = app.buttons["√"]
-//
-//        let buttonEqual = app.buttons["="]
-//
-//        // cos(π) = -1
-//        buttonPi.tap()
-//        buttonCos.tap()
-//        XCTAssert(app.staticTexts["-1"].exists)
-//    }
+
     
 }
