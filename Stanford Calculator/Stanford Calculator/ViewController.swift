@@ -11,6 +11,7 @@ import UIKit
 class ViewController: UIViewController {
 
     @IBOutlet weak var displayLabel: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
     
     var userIsInTheMiddleOfTyping = false
     var userIsTypingDoubleValue = false  //flag to avoid numbers with 2 or more dots "."
@@ -29,12 +30,15 @@ class ViewController: UIViewController {
     }
     
     //Action for when "." is pressed. 
-    //User most be currently typing a number, and "." can only be inserted once per number
+    //"." can only be inserted once per number
     @IBAction func touchedDot(_ sender: UIButton) {
         let dot = sender.currentTitle!
         if !userIsTypingDoubleValue && userIsInTheMiddleOfTyping{
             let textCurrentlyInDisplay = displayLabel.text!
             displayLabel.text = textCurrentlyInDisplay + dot
+            userIsTypingDoubleValue = true
+        } else if !userIsTypingDoubleValue {
+            displayLabel.text = "0."
             userIsTypingDoubleValue = true
             userIsInTheMiddleOfTyping = true
         }
@@ -60,6 +64,13 @@ class ViewController: UIViewController {
         if let result = brain.result {
             displayValue = result
         }
+        if let description = brain.description {
+            if brain.resultIsPending {
+                descriptionLabel.text = description + " ..."
+            } else {
+                descriptionLabel.text = description + " ="
+            }
+        }
     }
 
     //Reset brain (by reinitializing the CalculatorBrain
@@ -67,6 +78,9 @@ class ViewController: UIViewController {
     @IBAction func touchedAC(_ sender: UIButton) {
         brain = CalculatorBrain()
         displayLabel.text = "0"
+        descriptionLabel.text = " "
+        userIsInTheMiddleOfTyping = false
+        userIsTypingDoubleValue = false
     }
 
 }
